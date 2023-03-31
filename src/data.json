@@ -1,0 +1,91 @@
+[
+  {
+    "id": 1,
+    "make": "Chevrolet",
+    "body": "coupe",
+    "price": 45323,
+    "year": 2020,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+  },
+  {
+    "id": 2,
+    "make": "Buick",
+    "body": "sedan",
+    "price": 25422,
+    "year": 2016,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  },
+  {
+    "id": 3,
+    "make": "Porsche",
+    "body": "SUV",
+    "price": 77693,
+    "year": 2018,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  },
+  {
+    "id": 5,
+    "make": "Audi",
+    "body": "SUV",
+    "price": 12242,
+    "year": 2011,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  },
+  {
+    "id": 6,
+    "make": "Chevrolet",
+    "body": "coupe",
+    "price": 145323,
+    "year": 2023,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  },
+  {
+    "id": 7,
+    "make": "Chevrolet",
+    "body": "SUV",
+    "price": 434,
+    "year": 2003,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  },
+  {
+    "id": 8,
+    "make": "Porsche",
+    "body": "Coupe",
+    "price": 277693,
+    "year": 2023,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  },
+  {
+    "id": 9,
+    "make": "Audi",
+    "body": "sedan",
+    "price": 82242,
+    "year": 2019,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  },
+  {
+    "id": 10,
+    "make": "Chevrolet",
+    "body": "coupe",
+    "price": 45323,
+    "year": 2020,
+    "colorj": "#DF0237",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb"
+
+  }
+]
