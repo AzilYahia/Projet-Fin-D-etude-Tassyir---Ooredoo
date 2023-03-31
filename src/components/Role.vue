@@ -124,7 +124,7 @@ library.add(faUser, faHeadset, faLocationDot,faGlobe,faChevronLeft,faChevronRigh
 }
 
 .role-list{
-    width: 70%;
+    width: 80%;
     height: 90%;
     display: flex;
     justify-content: space-between;
@@ -207,13 +207,7 @@ library.add(faUser, faHeadset, faLocationDot,faGlobe,faChevronLeft,faChevronRigh
   background-color: #6B7280;
     transition-duration: 0.3s;
 }
-*{
-  font-family: Inter, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /*float: bottom;*/
-}
+
 .index{
   display: flex;
     width: 50px;

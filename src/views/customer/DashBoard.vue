@@ -7,12 +7,14 @@ import Chart from "@/components/Chart.vue";
 
 <template>
 <!--  left sidebar-->
-
   <SideBar/>
 <!--  navbar-->
-  <body>
+
+  <div class="container">
+
   <h1>Good Morning Yahia!</h1>
   <p id="hopeyouarehaving">Hope you are having a good day</p>
+  <main>
 <!--  right navbar-->
   <div class="squares">
     <div class="square">
@@ -31,19 +33,28 @@ import Chart from "@/components/Chart.vue";
       <p class="square-description">17% increase from last month</p>
     </div>
   </div>
+
+  <div class="main-content">
   <Chart/>
 
     <!--  graph-->
-
-  <EmployeesList/>
+  <div class="employes-list">
+    <EmployeesList/>
+  </div>
+  </div>
 <!--  employees-->
-  </body>
+  </main>
+  </div>
+
 </template>
 
 <style scoped>
+.container{
+  padding:50px 0;
+}
 .squares{
-  display: grid;
-  float: right;
+  /* display: grid; */
+  /* float: right; */
   margin-right: 25px;
 }
 .square{
@@ -65,11 +76,7 @@ import Chart from "@/components/Chart.vue";
 h4{
   font-size: 15px;
 }
-*{
-  margin: 0;
-  padding: 0;
-  font-family: Inter, sans-serif;
-}
+
 h1{
   margin-left: 40px;
   font-size: 25px;
@@ -84,5 +91,27 @@ h2{
 p{
   color: #828282;
   font-size: 13px;
+}
+
+main{
+  display:flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+.main-content{
+  flex:3;
+}
+
+.main-content > div{
+  margin-bottom:50px;
+}
+.squares{
+  flex:1;
+}
+
+/* styli had rule bch t specifier l height */
+.employes-list{
+  height:200px;
+  overflow: auto;
 }
 </style>

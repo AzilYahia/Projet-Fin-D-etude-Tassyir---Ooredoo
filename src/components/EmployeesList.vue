@@ -12,6 +12,7 @@ const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkg
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    width:100%;
 }
 .header{
     width: 100%;
@@ -26,7 +27,9 @@ const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkg
     align-items: center;
     background-color: #F9F9F9;
     width: 100%;
-    height: 40px;
+    padding:10px 5px;
+    margin:10px 0;
+    /* height: 40px; */
     /*margin-left: 40px;*/
     /*margin-top: 15px;*/
     border-radius: 10px;
@@ -35,11 +38,11 @@ const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkg
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 88%;
+    width: 80%;
 }
 .image{
-    width: 4%; /*5% = 80px*/
-    height: 70%; /*30% = 30px*/
+    width:40px;
+    height: 40px;
     background-color: #DF0327;
     border-radius: 20%;
 }
@@ -75,7 +78,7 @@ const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkg
     justify-content: space-around;
     overflow-y: scroll;
     position: relative ;
-    height: 350px;
+    /* height: 350px; */
 }
 .list::-webkit-scrollbar-track {
     background: #ffffff; /* color of the scrollbar track */

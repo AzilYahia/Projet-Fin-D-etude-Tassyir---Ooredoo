@@ -23,13 +23,7 @@ let menuitems = [
   }]
 </script>
 <style scoped>
-*{
-  font-family: Inter, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: white;
-}
+
 </style>
 
 <template>

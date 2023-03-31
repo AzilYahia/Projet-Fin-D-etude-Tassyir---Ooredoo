@@ -11,10 +11,10 @@ import Table from "@/components/Table.vue";
 <!--  if entreprise ooredoo side-->
 <!--  code-->
 <!--  if entreprise customer side-->
-<!--<DashBoard></DashBoard>-->
-<!--<Roles></Roles>-->
-
-  <Table></Table>
+<!-- <DashBoard></DashBoard> -->
+<Roles></Roles>
+  <!-- <router-view></router-view> -->
+  <!-- <Table></Table> -->
 <!--code-->
 </template>
 
