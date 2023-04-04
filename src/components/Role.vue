@@ -189,7 +189,6 @@ library.add(faUser, faHeadset, faLocationDot,faGlobe,faChevronLeft,faChevronRigh
     align-content: center;
     align-items: center;
     font-family: 'Inter', sans-serif;
-
 }
 
 .loginbutton{

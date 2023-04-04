@@ -1,11 +1,11 @@
 <template>
-  Employees
+
+<Table></Table>
 </template>
 
-<script>
-export default {
-  name: "Employees"
-}
+<script setup>
+import Table from "@/components/EmployeesTable.vue";
+
 </script>
 
 <style scoped>

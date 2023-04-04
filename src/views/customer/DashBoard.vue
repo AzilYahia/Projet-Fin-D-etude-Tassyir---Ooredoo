@@ -50,7 +50,7 @@ import Chart from "@/components/Chart.vue";
 
 <style scoped>
 .container{
-  padding:50px 0;
+  /*padding:50px 0;*/
 }
 .squares{
   /* display: grid; */
@@ -80,7 +80,7 @@ h4{
 h1{
   margin-left: 40px;
   font-size: 25px;
-  margin-top: 10px;
+  /*margin-top: 10px;*/
 }
 h2{
   font-size: 22px;

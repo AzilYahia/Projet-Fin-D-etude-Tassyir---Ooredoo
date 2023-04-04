@@ -5,6 +5,11 @@ import router from "@/router";
 const cars = ref(carsData);
 import {useRouter} from "vue-router";
 </script>
+<script>
+export default {
+    name: "HomeView"
+}
+</script>
 
 <template>
   <main class="container">

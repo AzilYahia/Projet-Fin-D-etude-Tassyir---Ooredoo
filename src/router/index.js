@@ -9,25 +9,27 @@ import Settings from "@/views/customer/Settings.vue";
 import LogOut from "@/views/customer/LogOut.vue";
 import DashBoard from "@/views/customer/DashBoard.vue";
 import NotFoundView from "@/views/general/NotFoundView.vue"
+import HomeView from "@/views/general/HomeView.vue";
+import Role from "@/components/Role.vue";
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: [
-        // {
-        //     path: "/",
-        //     name: "home",
-        //     component: HomeView
-        // },
-        // {
-        //     path: "/dashboard",
-        //     name: "dashboard",
-        //     component: DashBoard,
-        // },
-        // {
-        //     path: "/roles",
-        //     name: "roles",
-        //     component: Roles
-        // },
+        {
+            path: "/",
+            name: "dashboard",
+            component: DashBoard
+        },
+        {
+            path: "/dashboard",
+            name: "dashboard",
+            component: DashBoard
+        },
+        {
+            path: "/roles",
+            name: "roles",
+            component: Role
+        },
 
         {
             path: "/employees",
@@ -66,12 +68,12 @@ const router = createRouter({
             component: LogOut
         }
 
-        ,
-        {
-            path: "/:pathMatch(.*)*",
-            name: "NotFound",
-            component: NotFoundView
-        }
+        // ,
+        // {
+        //     path: "/:pathMatch(.*)*",
+        //     name: "NotFound",
+        //     component: NotFoundView
+        // }
         // ,
         // {
         //     path: "/car/:id",
