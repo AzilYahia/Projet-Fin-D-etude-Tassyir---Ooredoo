@@ -12,10 +12,9 @@ const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkg
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width:100%;
+    width: 690px;
 }
 .header{
-    width: 100%;
     display: flex;
     justify-content: space-between;
 }
@@ -63,12 +62,12 @@ const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkg
 }
 .title{    overflow: hidden;
     word-break: break-word;
-    font-size: 160%;
+    font-size: 22px;
     font-weight: bold;
 }
 .option{
     color: #DF0327;
-    font-size: 120%;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -104,7 +103,7 @@ const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkg
             <div class="option">View All</div>
         </div>
         <div class="list"> <!-- column -->
-            <div class="rectangle" v-for="car in cars.slice(0,3)" :key="car.id"><!-- row -->
+            <div class="rectangle" v-for="car in cars" :key="car.id"><!-- row -->
                 <div class="image" :style="{  'background-color': carcolors[car.id]}"></div>
                 <div class="rectangle-info"> <!-- column -->
                     <div class="name">

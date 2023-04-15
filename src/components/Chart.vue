@@ -1,8 +1,24 @@
 <script setup>
-import {defineComponent} from "vue";
 import {LineChart} from "vue-chart-3";
 import { Chart, registerables, } from "chart.js";
+import {ref} from "vue";
+import axios from 'axios';
+import {onMounted} from "vue";
+
+const instance = ref([]);
+const loading = ref(true);
 Chart.register(...registerables);
+
+onMounted(async () => {
+    try {
+        const response = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/users/3');
+        instance.value = response.data.data;
+        loading.value = false;
+    } catch (error) {
+        console.log(error);
+        loading.value = false; // set loading to false in case of error
+    }
+});
 
 const testData = {
   labels: ['Oct 2022','Nov 2022','Dec 2022','Jan 2023','Feb 2023',],
@@ -39,16 +55,10 @@ const testData = {
   ],
 };
 </script>
-
 <template>
   <LineChart  :chartData="testData" :cssClasses="chart"
-              style="width: 670px; height: 300px;
-              margin-left: 40px;
+              style="    width: clamp(660px, 100%, 100%);
+; height: clamp(300px, 100%, 100%);
 "
   />
 </template>
-
-
-<style scoped>
-
-</style>

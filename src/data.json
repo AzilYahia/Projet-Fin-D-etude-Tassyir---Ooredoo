@@ -5,8 +5,14 @@
     "body": "coupe",
     "price": 45323,
     "year": 2020,
-    "colorj": "#DF0237",
-    "description": "Call: 120min/600min | Internet: 2gb/30gb"
+    "colorj": "#3CE04C",
+    "status": "Active",
+    "description": "Call: 120min/600min | Internet: 2gb/30gb",
+    "descriptionLines": "warda charlo",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 2,
@@ -15,8 +21,13 @@
     "price": 25422,
     "year": 2016,
     "colorj": "#DF0237",
-    "description": "Call: 135min/600min | Internet: 17gb/30gb"
-
+    "status": "Suspened",
+    "description": "Call: 135min/600min | Internet: 17gb/30gb",
+    "descriptionLines": "belkacem hebba",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 3,
@@ -24,9 +35,14 @@
     "body": "SUV",
     "price": 77693,
     "year": 2018,
-    "colorj": "#DF0237",
-    "description": "Call: 60min/600min | Internet: 14gb/30gb"
-
+    "colorj": "#0071BC",
+    "status": "Not Assigned",
+    "description": "Call: 60min/600min | Internet: 14gb/30gb",
+    "descriptionLines": "ahmed ali",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 5,
@@ -34,9 +50,14 @@
     "body": "SUV",
     "price": 12242,
     "year": 2011,
-    "colorj": "#DF0237",
-    "description": "Call: 110min/600min | Internet: 23gb/30gb"
-
+    "colorj": "#3CE04C",
+    "status": "Active",
+    "description": "Call: 110min/600min | Internet: 23gb/30gb",
+    "descriptionLines": "redouan beloui",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 6,
@@ -44,9 +65,14 @@
     "body": "coupe",
     "price": 145323,
     "year": 2023,
-    "colorj": "#DF0237",
-    "description": "Call: 140min/600min | Internet: 30gb/30gb"
-
+    "colorj": "#3CE04C",
+    "status": "Active",
+    "description": "Call: 140min/600min | Internet: 30gb/30gb",
+    "descriptionLines": "salim ljifa",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 7,
@@ -55,8 +81,13 @@
     "price": 434,
     "year": 2003,
     "colorj": "#DF0237",
-    "description": "Call: 190min/600min | Internet: 5gb/30gb"
-
+    "status": "Suspened",
+    "description": "Call: 190min/600min | Internet: 5gb/30gb",
+    "descriptionLines": "karim abbad",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 8,
@@ -64,9 +95,14 @@
     "body": "Coupe",
     "price": 277693,
     "year": 2023,
-    "colorj": "#DF0237",
-    "description": "Call: 170min/600min | Internet: 10gb/30gb"
-
+    "colorj": "#0071BC",
+    "status": "Not Assigned",
+    "description": "Call: 170min/600min | Internet: 10gb/30gb",
+    "descriptionLines": "jean jack rousseau",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 9,
@@ -74,9 +110,14 @@
     "body": "sedan",
     "price": 82242,
     "year": 2019,
-    "colorj": "#DF0237",
-    "description": "Call: 130min/600min | Internet: 7gb/30gb"
-
+    "colorj": "#3CE04C",
+    "status": "Active",
+    "description": "Call: 130min/600min | Internet: 7gb/30gb",
+    "descriptionLines": "abdessamad salim",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   },
   {
     "id": 10,
@@ -85,7 +126,12 @@
     "price": 45323,
     "year": 2020,
     "colorj": "#DF0237",
-    "description": "Call: 120min/600min | Internet: 15gb/30gb"
-
+    "status": "Suspened",
+    "description": "Call: 120min/600min | Internet: 15gb/30gb",
+    "descriptionLines": "abdou kata",
+    "startingDate": "2020-01-01",
+    "endingDate": "2020-01-31",
+    "data": "4000/2145 GB",
+    "minutes": "4500/1233 Min"
   }
 ]

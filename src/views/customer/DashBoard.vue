@@ -1,78 +1,228 @@
 <script setup>
-import SideBar from "@/components/SideBar.vue";
-import EmployeesList from "@/components/EmployeesList.vue";
 import Chart from "@/components/Chart.vue";
-
+import {ref} from "vue";
+import axios from 'axios';
+import {onMounted} from "vue";
+const instance = ref([]);
+const loading = ref(true);
+const cars = ref(instance);
+const colors = ['red','blue','yellow','green','teal','black','accentred','grey','purple','orange','yellow','blue','purple',]
+onMounted(async () => {
+    try {
+        const response = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/users/3');
+        instance.value = response.data.data;
+        loading.value = false;
+    } catch (error) {
+        console.log(error);
+        loading.value = false; // set loading to false in case of error
+    }
+});
 </script>
-
 <template>
-<!--  left sidebar-->
-  <SideBar/>
-<!--  navbar-->
+    <div class="wholey">
+        <div class="vertical">
+           <div class="chart">
+               <Chart/>
+           </div>
 
-  <div class="container">
+            <div class="employes-list">
+                <div class="whole">
+                    <div class="header"><!-- row -->
+                        <div class="title">Employees</div>
+                        <div class="option">View All</div>
+                    </div>
+                    <div class="list"> <!-- column -->
+                        <div class="rectangle" v-if="loading" v-for="one in [1,2,3]" style="background-color: #F9F9F9; opacity: 40%"><!-- row -->
+                            <div class="image"
+                                 :style="{  'background-color': colors[one] }" style="opacity: 20%"></div>
+                            <div class="rectangle-info"> <!-- column -->
+                                <div class="name" style="color: #A0A0A0">
+                                    Name
+                                </div>
+                                <div class="info">
+                                    Role
+                                </div>
+                            </div>
+                            <div class="edit" >Edit</div>
+                        </div>
 
-  <h1>Good Morning Yahia!</h1>
-  <p id="hopeyouarehaving">Hope you are having a good day</p>
-  <main>
-<!--  right navbar-->
-  <div class="squares">
-    <div class="square">
-      <h2 class="square-description">412 GB</h2>
-      <h5 class="square-description">Left for this month</h5>
-      <p class="square-description">17% increase from last month</p>
-      </div>
-    <div class="square" style="background-color: #FFFF0070">
-      <h2 class="square-description">412 GB</h2>
-      <h5 class="square-description">Left for this month</h5>
-      <p class="square-description">17% increase from last month</p>
+
+                        <div class="rectangle" v-else v-for="oneInstance in instance" :key="oneInstance.id_user"><!-- row -->
+                            <div class="image"
+                                 :style="{  'background-color': colors[oneInstance.id_user]}"></div>
+                            <div class="rectangle-info"> <!-- column -->
+                                <div class="name">
+                                    {{ oneInstance.nom}} {{oneInstance.prenom}}
+
+                                </div>
+                                <div class="info">
+                                    {{ oneInstance.role.nom }}
+                                </div>
+                            </div>
+                            <div class="edit">Edit</div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="squares">
+            <div class="square">
+                <h2 class="square-description">412 GB</h2>
+                <h5 class="square-description">Left for this month</h5>
+                <p class="square-description">17% increase from last month</p>
+            </div>
+            <div class="square" style="background-color: #FFFF0070">
+                <h2 class="square-description">412 GB</h2>
+                <h5 class="square-description">Left for this month</h5>
+                <p class="square-description">17% increase from last month</p>
+            </div>
+
+        </div>
     </div>
-    <div class="square" style="background-color: #DF032770">
-      <h2 class="square-description">412 GB</h2>
-      <h5 class="square-description">Left for this month</h5>
-      <p class="square-description">17% increase from last month</p>
-    </div>
-  </div>
-
-  <div class="main-content">
-  <Chart/>
-
-    <!--  graph-->
-  <div class="employes-list">
-    <EmployeesList/>
-  </div>
-  </div>
-<!--  employees-->
-  </main>
-  </div>
-
 </template>
-
 <style scoped>
-.container{
-  /*padding:50px 0;*/
+.rectangle-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-left: 20px;
 }
+.image{
+    width:50px;
+    height: 40px;
+    background-color: #DF0327;
+    border-radius: 20%;
+}.edit{
+     align-self: start;
+     padding: 1%;
+     color: #DF0327;
+     font-weight: bold;
+ }
+.info{
+    color: #A0A0A0;
+    font-size: 100%;    overflow: hidden;
+    word-break: break-word;
+}
+.name{
+    font-size: 120%;    overflow: hidden;
+    word-break: break-word;
+}
+.title{    overflow: hidden;
+    word-break: break-word;
+    font-size: 22px;
+    font-weight: bold;
+}
+.option{
+    color: #DF0327;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.list{
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-around;*/
+    overflow-y: scroll;
+    position: relative ;
+    padding-right: 10px;
+    /*height: 150px;*/
+    height: clamp(160px, 100% , 600px);
+}
+
+.list::-webkit-scrollbar-track {
+    background: #ffffff;
+    /* color of the scrollbar track */
+}
+.list::-webkit-scrollbar-thumb {
+    background-color: rgba(134, 132, 132, 0.1); /* color of the scrollbar thumb */
+    border-radius: 5px; /* round the corners of the thumb */
+}
+.list::-webkit-scrollbar-thumb:hover {
+    background-color: #DF0327;
+    /* color of the scrollbar thumb on hover */
+}
+.list::-webkit-scrollbar {
+    width: 4px; /* width of the scrollbar */
+    /*height: 4px;*/
+    /*position: absolute;*/
+
+}
+
+.vertical{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: clamp(900px, 80% , 80%);
+    height: clamp(500px, 100% , 100%);
+
+}
+.wholey{
+    display: flex;
+    padding: 0 20px;
+    justify-content: center;
+    width: clamp(900px, 100% , 100%);
+    height: clamp(500px, 100% , 100%);
+}
+.whole{
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-evenly;*/
+    /*width: 660px;*/
+    width: clamp(660px, 100%, 100%);
+    height: clamp(203px, 60% , 65%);
+
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+}.rectangle{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-evenly;
+     align-items: center;
+     background-color: #F9F9F9;
+     width: 100%;
+     padding:10px 5px;
+     margin:10px 0;
+     /* height: 40px; */
+     /*margin-left: 40px;*/
+     /*margin-top: 15px;*/
+     border-radius: 10px;
+ }
+
+
+
+
+/**/
+
 .squares{
-  /* display: grid; */
-  /* float: right; */
-  margin-right: 25px;
+    display: flex;
+    flex-direction: column;
+    /*width: clamp(10px, 40%, 100%);*/
+
+    /*flex:1;*/
 }
 .square{
   flex-direction: column;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
+  /*width: 300px;*/
+    min-width: 300px;
+  /*  width: clamp(20px, 50%, 100%);*/
   height: 110px;
   background-color: #ECEAFE;
   border-radius: 20px;
   margin-bottom: 20px;
   float: right;
 }
-#hopeyouarehaving{
-  margin-left: 40px;
-  margin-bottom: 15px;
-}
+
 h4{
   font-size: 15px;
 }
@@ -99,19 +249,27 @@ main{
   justify-content: space-between;
 }
 .main-content{
-  flex:3;
+  /*flex:3;*/
 }
 
 .main-content > div{
   margin-bottom:50px;
 }
-.squares{
-  flex:1;
-}
+
 
 /* styli had rule bch t specifier l height */
 .employes-list{
-  height:200px;
-  overflow: auto;
+    height: clamp(200px, 50%, 50%);
+
+    /*height:200px;*/
+    margin-top: 20px;
+  /*overflow-y: scroll;*/
+    width: clamp(660px, 100%, 100%);
+
+}
+
+.chart {
+    width: clamp(660px, 100%, 100%);
+    height: clamp(300px, 40%, 40%);
 }
 </style>

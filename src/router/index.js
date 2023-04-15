@@ -11,62 +11,67 @@ import DashBoard from "@/views/customer/DashBoard.vue";
 import NotFoundView from "@/views/general/NotFoundView.vue"
 import HomeView from "@/views/general/HomeView.vue";
 import Role from "@/components/Role.vue";
+import myProfile from "@/views/customer/myProfile.vue";
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: "/",
-            name: "dashboard",
+            name: "Home",
             component: DashBoard
         },
         {
             path: "/dashboard",
-            name: "dashboard",
+            name: "Dashboard",
             component: DashBoard
         },
         {
             path: "/roles",
-            name: "roles",
+            name: "Roles",
             component: Role
         },
 
         {
             path: "/employees",
-            name: "employees",
+            name: "Employees",
             component: Employees
         },
 
         {
             path: "/logs",
-            name: "logs",
+            name: "Logs",
             component: Logs
         },
         {
             path: "/calllines",
-            name: "calllines",
+            name: "Call Lines",
             component: CallLines
         },
         {
             path: "/subscription",
-            name: "subscription",
+            name: "Subscription",
             component: Subscription
         },
         {
             path: "/facturation",
-            name: "facturation",
+            name: "Facturation",
             component: Facturation
         },
         {
             path: "/settings",
-            name: "settings",
+            name: "Settings",
             component: Settings
         },
         {
             path: "/logout",
-            name: "logout",
+            name: "Log out",
             component: LogOut
-        }
+        },{
+            path: "/myProfile",
+            name: "My Profile",
+            component: myProfile
+        },
 
         // ,
         // {

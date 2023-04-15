@@ -1,10 +1,19 @@
 <script setup>
-import Roles from "@/views/customer/Roles.vue"
-import DashBoard from "@/views/customer/DashBoard.vue";
 import TopBar from "@/components/TopBar.vue";
-import NavBar from "@/components/NavBar.vue";
-import {RouterView, RouterLink} from "vue-router";
 import SideBar from "@/components/SideBar.vue";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const pageTitle = ref(route.name);
+
+watch(
+    () => route.name,
+    (newName) => {
+        pageTitle.value = newName;
+    }
+);
+
 </script>
 
 <template>
@@ -15,8 +24,14 @@ import SideBar from "@/components/SideBar.vue";
 <!--  if entreprise customer side-->
 <!-- <DashBoard></DashBoard>-->
 <!--    <router-view to="roles"></router-view>-->
+<!--    i want to check if im on the dashboard page, if yes, use SpecialTopBar, else use TopBar         -->
+<!--    <SpecialTopBar v-if="this.$route.name === 'dashboard'"></SpecialTopBar>-->
+
+    <TopBar :pageTitle="pageTitle"></TopBar>
+
     <SideBar></SideBar>
-    <TopBar></TopBar>
+<!--    <TopBar></TopBar>-->
+<!--    <SpecialTopBar></SpecialTopBar>-->
     <RouterView></RouterView>
 <!--    <Roles></Roles>-->
 <!--   <router-view></router-view>-->
