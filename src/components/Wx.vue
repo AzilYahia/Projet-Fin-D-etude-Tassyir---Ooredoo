@@ -8,7 +8,7 @@
             <font-awesome-icon icon="fas fa-trash-can" class="actions-square-icon"/>
             <font-awesome-icon icon="fas fa-circle-info" class="actions-square-icon" @click="showEmployeeInfo(employee)" />
         </div>
-        <Popup :ref="popupRef" :employee="selectedEmployee" v-if="selectedEmployee !== null" :isShown="isShown" @cancelFunction="()=>{isShown = !isShown}" /> <!-- add the Popup component -->
+        <Popup :ref="popupRef" :employee="selectedEmployee" v-if="selectedEmployee !== null"  @cancelFunction="()=>{isShown = !isShown;}"  :isShown="isShown" /> <!-- add the Popup component -->
 
     </div>
 </template>
@@ -16,7 +16,6 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import useDetectOutsideClick from '../composables/useDetectOutsideClick.js';
-
 import {
     faBars,
     faChevronDown,
@@ -29,16 +28,7 @@ import {
 import { ref, watchEffect } from "vue";
 import carsData from "../data.json";
 import Popup from "./Popup.vue"; // import the Popup component
-library.add(
-    faChevronDown,
-    faMagnifyingGlass,
-    faPlus,
-    faPencil,
-    faTrashCan,
-    faCircleInfo,
-    faBars
-);
-
+library.add(faChevronDown, faMagnifyingGlass, faPlus, faPencil, faTrashCan, faCircleInfo, faBars);
 const props = defineProps({
     employee: {
         type: Object,
@@ -49,14 +39,11 @@ const employee = ref(props.employee);
 let isMenuOpen = ref(false);
 let isShown = ref(false);
 let selectedEmployee = ref(null); // add a new reactive variable
-
-
 function handleClickOutside(event) {
     if (!event.target.closest(".sala")) {
         isMenuOpen.value = false;
     }
 }
-
 function toggleMenu() {
     isMenuOpen.value = !isMenuOpen.value;
 }
@@ -66,7 +53,6 @@ function showEmployeeInfo(employee) {
     isShown.value = false;
 }
 
-
 watchEffect(() => {
     if (isMenuOpen.value) {
         document.addEventListener("click", handleClickOutside);
@@ -74,13 +60,13 @@ watchEffect(() => {
         document.removeEventListener("click", handleClickOutside);
     }
 });
-
 const popupRef = ref()
 useDetectOutsideClick(popupRef, () => {
     isShown.value = false;
 })
-
 </script>
+
+
 <style scoped>
 * {
     font-family: Inter, sans-serif

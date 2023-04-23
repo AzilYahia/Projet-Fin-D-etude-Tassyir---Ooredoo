@@ -9,6 +9,7 @@
     <font-awesome-icon icon="fas fa-chevron-left" class="icon"/></button>
 <!--  role-->
     <div class="role-list" >
+<!--        id kan loading-->
         <div v-if="loading" v-for="two in [1,2]" class="role" style="opacity: 40%;">
             <div class="role-header">
                 <div class="hea">
@@ -44,18 +45,24 @@
                 </div>
             </div>
         </div>
-
-        <div class="role" v-else v-for="role in roless" :key="id_user">
+<!--ida makach loading, sma cbn-->
+        <div class="role" v-else v-for="role in roless" :key="role.id_user">
       <div class="role-header">
       <div class="hea">
           <span id="edit">Edit</span>
           <span v-if="role.nom" class="role-name">{{ role.nom }}</span>
           <span v-else class="role-name" style="color: #747171">Role </span>
       </div>
-      <div class="actions-square">
-          <div class="actions-content"> Actions</div>
-          <font-awesome-icon icon="fas fa-chevron-down" class="chevron-down"/>
-      </div>
+<!--      <div class="actions-square">-->
+          <select class="actions-content-active" style="text-align: center;" >
+              <option value="" selected disabled hidden> Actions</option>
+
+              <option v-for="rolet in roless" :value="role" disabled>{{ rolet.nom }}</option>
+
+          </select>
+
+
+<!--      </div>-->
       </div>
         <div class="emplo">
             <div class="whole">
@@ -64,6 +71,7 @@
                     <div class="option">View All</div>
                 </div>
                 <div class="list"> <!-- column -->
+<!--                    ida kan laoding:-->
                     <div class="rectangle" v-if="loading" v-for="one in [1,2,3]" style="background-color: #F9F9F9; opacity: 40%"><!-- row -->
                         <div class="image"
                              :style="{  'background-color': carcolors[one] }" style="opacity: 20%"></div>
@@ -77,7 +85,7 @@
                         </div>
                         <div class="edit" >Edit</div>
                     </div>
-
+<!--ida makach loading-->
                     <div class="rectangle" v-else v-for="car in employees" :key="car.id_user"><!-- row -->
                         <div class="image"
                              :style="{  'background-color': carcolors[car.id_user]}"></div>
@@ -97,8 +105,6 @@
                         </div>
                         <div class="edit">Edit</div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -118,13 +124,83 @@
       <!--  index tae ama page rak-->
 <!--button tae create role yji lt7t flwst-->
   <div class="button">
-    <button class="loginbutton">
+    <button class="loginbutton" @click="createRole">
       Create role
     </button>
   </div>
 
   <!--      </div>-->
   </div>
+    <div ref="popup" style="display: none;">
+        <div class="popup" style="display: flex; flex-direction: column">
+            <div class="popup-content">
+                <div class="header">
+                    <h2>Create Role</h2>
+                </div>
+                <div class="content">
+                    <form @submit.prevent="saveEmployee" style="height: 80%; width: 100%;">
+                        <div class="fields">
+                            <div class="form-group" >
+                                <label for="name">Role Name {{name}}</label>
+                                <input id="name" type="text" v-model="name"  required>
+<!--                                                         ^          -->
+                                <!--            v-model="oneInstance.nom"   -->
+                            </div>
+                            <div class="form-group">
+                                <label for="other-fields">Description {{description}}</label>
+                                <input id="other-fields"     v-model="description"   >
+<!--                                                         ^          -->
+                                <!--            v-model="oneInstance.prenom"   -->
+                            </div>
+                            <div class="form-group" style="width: 80%">
+
+                                <label >Actions</label>
+<!--                                <multiselect-->
+<!--                                    :multiple="true"-->
+<!--                                    :close-on-select="false"-->
+<!--                                    :clear-on-select="false"-->
+<!--                                    :preserve-search="true"-->
+<!--                                    placeholder="Pick some"-->
+<!--                                    label="name"-->
+<!--                                    track-by="name"-->
+<!--                                    :preselect-first="true"-->
+<!--                                />-->
+
+<!--                                <label class="typo__label">Simple select / dropdown</label>-->
+                                <multiselect
+                                    v-model="value"
+                                    :options="options"
+                                    :multiple="true"
+                                    :close-on-select="false"
+                                    :clear-on-select="false"
+                                    placeholder="Actions"
+                                    label="name"
+                                    track-by="name"
+                                    :searchable="false"
+                                    selectLabel="Add Action"
+                                    selectedLabel="Added"
+                                    deselectLabel="Remove Action"
+                                >
+
+                                </multiselect>
+
+                                <!--                                                         ^          -->
+                                <!--            v-model="oneInstance.role.nom"   -->
+                            </div>
+                        </div>
+                        <div class="buttons">
+
+                            <button type="button" class="cancel-button" @click="hideCreateRole()">Cancel</button>
+                            <button type="submit" class="save-button" @click="saveEmployee">Save</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 <script setup>
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -132,14 +208,15 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faUser,faHeadset,faLocationDot, faGlobe, faEye, faEyeSlash, faChevronLeft, faChevronRight, faPlus, faChevronDown, } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import carsData from"../data.json"
+import {onMounted, ref, watchEffect} from "vue";
+import Multiselect from 'vue-multiselect'
 library.add(faUser, faHeadset, faLocationDot,faGlobe,faChevronLeft,faChevronRight,faPlus,faChevronDown,)
-import {onMounted, ref} from "vue";
-
 const carcolors = ['red','blue','yellow','green','yellow','purple','blue','darkgrey','grey','purple','yellow','blue','purple',]
 const instance = ref([]);
 const employees = ref([]);
 const roless = ref([]);
 const loading = ref(true); // add a loading state
+const popup = ref(null);
 
 
 onMounted(async () => {
@@ -156,12 +233,189 @@ onMounted(async () => {
         loading.value = false;
     }
 });
+function createRole() {
+    if (popup.value.style.display === 'none') {
+        popup.value.style.display = 'block';
+        popupvaluestyledisplay = popup.value.style.display;
+    } else {
+        popup.value.style.display = 'none';
+        popupvaluestyledisplay = popup.value.style.display;
+
+    }
+}
+function hideCreateRole() {
+    if (popup.value.style.display === 'block') {
+        popup.value.style.display = 'none';
+    } else {
+        popup.value.style.display = 'block';
+    }
+}
+
+const value = ref([]);
+const options = ref([]);
+options.value = [
+    { name: 'Adonis'},
+    { name: 'Rails'},
+    { name: 'Sinatra'},
+    { name: 'Laravel'},
+    {name: 'Phoenix'}
+]
+let popupvaluestyledisplay;
+//i want to collapse the createrole when i click outside of it but i don't know how to do it
+
+let name = ref('');
+let description= ref('');
+
+function saveEmployee() {
+     // name.value = document.getElementById("name").value;
+     // description.value = document.getElementById("other-fields").value;
+    let  actions = value.value;
+    console.log(name,description,actions);
+    // axios.post('https://pfe.ramzi-issiakhem.com/api/v1/user/role/1', {
+    //     name: name,
+    //     description: description,
+    //     actions: actions,
+    // })
+    //     .then(function (response) {
+    //         console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
+}
 
 
 </script>
+<!--<style src="../node_modules/vue-multiselect/dist/vue3-multiselect.css"></style>-->
 
 <style scoped>
-@import "../boxiconscss/boxicons.min.css";
+/*@import "../boxiconscss/boxicons.min.css";*/
+input{
+    width: 80%;
+    height: 40px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+label{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: dimgrey;
+}
+.form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.fields{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 80%;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.popup-content {
+    background-color: #fff;
+    width: 80%;
+    max-width: 600px;
+    height: clamp(300px, 70%, 700px);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.popup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+.buttons{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    height: 20%;
+    align-items: center;
+    width: 100%;
+}
+.cancel-button{
+    border: 1px solid #DF0327 ;
+    background-color: #DF0327;
+    height: 50px;
+    width: 140px;
+    cursor: pointer;
+    color: white;
+    border-radius:14px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+}
+.cancel-button:hover{
+    background-color: #6B7280;
+    border: 1px solid #6B7280 ;
+
+    transition-duration: 0.3s;
+}
+
+.save-button{
+    border: 1px solid darkgreen ;
+    background-color: darkgreen;
+    height: 50px;
+    width: 140px;
+    cursor: pointer;
+    color: white;
+    border-radius:14px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+}
+.save-button:hover{
+    background-color: #6B7280;
+    border: 1px solid #6B7280 ;
+
+    transition-duration: 0.3s;
+}
+select:hover{
+    border: 2px solid #C4C4C4;
+    border-radius: 10px;
+}
+
+.actions-content-active{
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    width: 120px;
+    border: 2px solid #C4C4C4;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+.actions-content-active:hover{
+    border: 2px solid #C4C4C4;
+    border-radius: 10px;
+}
 
 .whole{
     display: flex;

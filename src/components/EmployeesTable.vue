@@ -60,15 +60,7 @@
 <script setup>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {
-    faBars,
-    faChevronDown,
-    faCircleInfo,
-    faMagnifyingGlass,
-    faPencil,
-    faPlus,
-    faTrashCan,
-} from '@fortawesome/free-solid-svg-icons'
+import {faBars, faChevronDown, faCircleInfo, faMagnifyingGlass, faPencil, faPlus, faTrashCan,} from '@fortawesome/free-solid-svg-icons'
 import {computed, ref, watchEffect} from "vue";
 import Wx from "@/components/Wx.vue";
 import DropDownMenu from "@/components/DropDownMenu.vue";
@@ -77,26 +69,42 @@ import {onMounted} from "vue";
 library.add(faChevronDown, faMagnifyingGlass, faPlus,faPencil, faTrashCan, faCircleInfo, faBars, )
 const instance = ref([]);
 const loading = ref(true);
-const roles = ref([]);
-const cars = ref(instance);
+const userData = ref([]);
 const colors = ['red','blue','yellow','green','teal','black','accentred','grey','purple','orange','yellow','blue','purple',]
 let showDropdown = ref(false);
 const selectedRole = ref('');
+const roles = ref([]);
+let user = ref([]);
 onMounted(async () => {
     try {
         const response = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/users/3');
         instance.value = response.data.data;
-        loading.value = false; // set loading to false when data is fetched
-        // Get a unique list of roles
-
+        const usersResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/company/client/lines/3');
+        userData.value = usersResponse.data.data;
+        loading.value = false;
+        for (let i = 0; i < response.data.data.length; i++) {
+            user[i] = {
+                nom: instance.value[i].nom,
+                prenom: instance.value[i].prenom,
+                position: instance.value[i].position,
+                email: instance.value[i].email,
+                phone: userData.value[i].numeroTelephone,
+            };
+        }
         const rolesSet = new Set();
-        instance.value.forEach((item) => {
-            rolesSet.add(item.role.nom);
-        });
+        for (let i = 0; i < user.length; i++) {
+            rolesSet.add(user[i].position);
+        }
+
+        // user.forEach((item) => {
+        //     rolesSet.add(item.position);
+        // });
         // Assign the list of roles to the roles array
         roles.value = Array.from(rolesSet);
+
+
     } catch (error) {
-        console.log(error);
+        alert(error);
         loading.value = false; // set loading to false in case of error
     }
 });
@@ -117,6 +125,7 @@ watchEffect(() => {
     }
 });
 const search = ref('');
+//change the below function to use the user array instead of the instance array
 const filteredInstance = computed(() => {
     return instance.value.filter(item => {
         const nameMatch = item.nom.toLowerCase().includes(search.value.toLowerCase())
@@ -124,6 +133,11 @@ const filteredInstance = computed(() => {
         return nameMatch && roleMatch
     })
 })
+// setTimeout(() => {console.log(user);}, 9000)
+
+
+
+
 
 </script>
 <style scoped>

@@ -20,7 +20,8 @@ let menuitems = [
   {link: "#settings",name: "Settings", tooltip: "Settings", icon: "bx-cog",
   },
   {link: "#logout",name: "Log out", tooltip: "Log out", icon: "bx-log-out"
-  }]
+  }
+  ]
 </script>
 <style scoped>
 

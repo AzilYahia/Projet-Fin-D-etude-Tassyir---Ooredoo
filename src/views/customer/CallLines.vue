@@ -47,15 +47,17 @@
                 </td>
                 <td>{{oneInstance.etatLigne}}</td>
                 <td>{{oneInstance.numeroTelephone}}</td>
-                <td class="aso">{{oneInstance.createdAt}}</td>
+                <td class="aso">{{oneInstance.utilisateur.nom}} {{oneInstance.utilisateur.prenom}}</td>
                 <td>
                     <div class="image-name">
-                        <div class="dot" :style="{'background-color': red}"></div>
-                        {{oneInstance.etatLigne}}
+                        <div v-if="oneInstance.utilisateur.etat === 'Actif' " class="dot" :style="{'background-color': 'green' }"></div>
+                        <div v-else-if="oneInstance.utilisateur.etat === 'unactif' " class="dot" :style="{'background-color': 'blue'}"></div>
+                        <div v-else class="dot" :style="{'background-color': 'red'}"></div>
+                        {{oneInstance.utilisateur.etat}}
                     </div>
                 </td>
                 <td >
-                    <wx/>
+                    <wx :employee="oneInstance"/>
                 </td>
             </tr>
 
@@ -80,14 +82,15 @@ import {ref, onMounted } from "vue";
 import axios from 'axios';
 library.add(faChevronDown, faMagnifyingGlass, faPlus,faPencil, faTrashCan, faCircleInfo, faBars )
 const instance = ref([]);
-const red = 'red';
+const userData = ref([]);
 const loading = ref(true); // add a loading state
 onMounted(async () => {
     try {
         const response = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/company/client/lines/3');
         instance.value = response.data.data;
+        const usersResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/users');
+        userData.value = usersResponse.data.data;
         loading.value = false; // set loading to false when data is fetched
-
     } catch (error) {
         console.log(error);
         loading.value = false; // set loading to false in case of error
@@ -95,11 +98,10 @@ onMounted(async () => {
     }
 });
 
+
 </script>
 
 <style scoped>
-
-
 .loading-spinner {
     border: 5px solid #f3f3f3; /* Light grey */
     border-top: 5px solid #DF0327; /* Blue */
