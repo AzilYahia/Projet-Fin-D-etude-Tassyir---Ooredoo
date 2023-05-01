@@ -8,7 +8,7 @@
             <div class="employes-list">
                 <div class="whole">
                     <div class="header"><!-- row -->
-                        <div class="title">Employees {{isShown}}</div>
+                        <div class="title">Employees </div>
                         <div class="option" @click="ViewAll">View All</div>
                     </div>
                     <div class="list"> <!-- column -->
@@ -64,7 +64,7 @@
                                                 {{ oneInstance.role.nom }}
                                             </div>
                                         </div>
-                                        <div class="edit">Edit</div>
+                                        <div class="edit" @click="editEmployeeinPopUp">Edit</div>
                                     </div>
 
                                 </div>
@@ -83,14 +83,23 @@
         </div>
         <div class="squares">
             <div class="square">
-                <h2 class="square-description">412 GB</h2>
+                <h2 class="square-description" v-if="credit == null"> -- GB</h2>
+                <h2 class="square-description" v-else>{{credit.internetInitial - cons.internet}} GB</h2>
                 <h5 class="square-description">Left for this month</h5>
-                <p class="square-description">17% increase from last month</p>
+<!--                <p class="square-description">17% increase from last month</p>-->
             </div>
             <div class="square" style="background-color: #FFFF0070">
-                <h2 class="square-description">412 GB</h2>
+                <h2 class="square-description" v-if="credit == null"> -- DA</h2>
+                <h2 class="square-description" v-else>{{credit.creditInitial - cons.credit}} DA</h2>
+
                 <h5 class="square-description">Left for this month</h5>
-                <p class="square-description">17% increase from last month</p>
+<!--                <p class="square-description">17% increase from last month</p>-->
+            </div>
+            <div class="square" style="background-color: #00B0FF60">
+                <h2 class="square-description" v-if="timeleft == null"> -- D -- h</h2>
+                <h2 class="square-description" v-else> {{timeleft.days}}D {{timeleft.hours}}h</h2>
+                <h5 class="square-description">Left for this month's Subscription</h5>
+<!--                <p class="square-description" STYLE="color: white">17% increase from last month</p>-->
             </div>
 
         </div>
@@ -107,6 +116,9 @@ import useDetectOutsideClick from "@/composables/useDetectOutsideClick";
 let isShown = ref(false);
 const popupRef = ref()
 const instance = ref([]);
+const cons = ref();
+const timeleft = ref();
+const credit = ref();
 const loading = ref(true);
 const colors = ['red','blue',
     'yellow','green','teal','black','accentred','grey','purple','orange','yellow','blue','purple',]
@@ -114,6 +126,18 @@ onMounted(async () => {
     try {
         const response = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/users/3');
         instance.value = response.data.data;
+
+        const consumption = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/client/user/consumption/1?begin=2023-04-15');
+        cons.value = consumption.data.data;
+
+        const time = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/company/current/subscription/remaining/3');
+        timeleft.value = time.data.data;
+
+        const consu = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/company/current/subscription/3');
+        credit.value = consu.data.data;
+
+
+        console.log(timeleft.value)
         loading.value = false;
     } catch (error) {
         console.log(error);
@@ -145,13 +169,15 @@ function hidePopup() {
 // }
 function editEmployee() {
     isShown.value = true;
-    console.log(isShown.value)
-
 }
-useDetectOutsideClick(popupRef, () => {
-    isShown.value = false;
-})
-console.log(isShown.value)
+function editEmployeeinPopUp() {
+    hidePopup();
+    isShown.value = true;
+}
+// useDetectOutsideClick(popupRef, () => {
+//     isShown.value = false;
+// })
+// console.log(isShown.value)
 </script>
 
 <style scoped>
@@ -274,18 +300,11 @@ console.log(isShown.value)
 
 }
 
-.vertical{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: clamp(900px, 80% , 80%);
-    height: clamp(500px, 100% , 100%);
 
-}
 .wholey{
     display: flex;
-    padding: 0 20px;
-    justify-content: center;
+    padding: 0 10px;
+    justify-content: space-around;
     width: clamp(900px, 100% , 100%);
     height: clamp(500px, 100% , 100%);
 }
@@ -313,14 +332,18 @@ console.log(isShown.value)
      width: 100%;
      padding:10px 5px;
      margin:10px 0;
-     /* height: 40px; */
-     /*margin-left: 40px;*/
-     /*margin-top: 15px;*/
      border-radius: 10px;
  }
 
 
+.vertical{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: clamp(840px, 80% , 80%);
+    height: clamp(500px, 100% , 100%);
 
+}
 
 /**/
 
@@ -328,7 +351,8 @@ console.log(isShown.value)
     display: flex;
     flex-direction: column;
     /*width: clamp(10px, 40%, 100%);*/
-
+    width: clamp(150px, 15%, 100%);
+    justify-content: flex-start;
     /*flex:1;*/
 }
 .square{
@@ -337,13 +361,16 @@ console.log(isShown.value)
   align-items: center;
   justify-content: center;
   /*width: 300px;*/
-    min-width: 300px;
-  /*  width: clamp(20px, 50%, 100%);*/
+  /*  min-width: 250px;*/
+    width: clamp(150px, 100%, 100%);
   height: 110px;
   background-color: #ECEAFE;
   border-radius: 20px;
   margin-bottom: 20px;
   float: right;
+}
+.square-description{
+    text-align: center;
 }
 
 h4{

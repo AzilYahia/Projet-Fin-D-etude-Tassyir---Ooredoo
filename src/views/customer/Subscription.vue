@@ -69,12 +69,26 @@ import {
     faPlus,
     faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import carsData from "../../data.json"
 import {color} from "chart.js/helpers";
 import Wx2actions from "@/components/wx2actions.vue";
+import axios from "axios";
 library.add(faChevronDown, faMagnifyingGlass, faPlus,faPencil, faTrashCan, faCircleInfo, faBars )
 const cars = ref(carsData);
+const listConsumption = ref([]);
+onMounted(async () => {
+    try {
+        const listConsumptionResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/company/subscriptions/3');
+        listConsumption.value = listConsumptionResponse.data.data;
+
+
+        loading.value = false;
+    } catch (error) {
+        console.log(error);
+        loading.value = false; // set loading to false in case of error
+    }
+});
 
 
 </script>

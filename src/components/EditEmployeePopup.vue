@@ -1,9 +1,8 @@
 <template>
-    <div class="popup" v-show="!isShown"> <!-- drt !isShown bl3ani, later nsgmha -->
-        <div class="popup-content">
+    <div class="popup" v-show="!isShown" style="display: flex"> <!-- drt !isShown bl3ani, later nsgmha -->
+        <div class="popup-content" v-if="employee.nom != null">
         <div class="header">
             <h2>Edit Employee Information</h2>
-            <h2>{{isShown}}</h2>
         </div>
         <div class="content">
             <form @submit.prevent="saveEmployee" style="height: 80%; width: 100%;">
@@ -28,21 +27,87 @@
             </form>
         </div>
         </div>
+        <div class="popup-content" v-else-if="employee.utilisateur.nom != null" >
+            <div class="header">
+                <h2>Edit Call Line</h2>
+            </div>
+            <div class="content">
+                <form @submit.prevent="saveCallLine" style="height: 80%; width: 100%;">
+                    <div class="fields">
+                        <div class="form-group" >
+                            <label for="name"> Assigned to</label>
+                            <input id="name" type="text" v-model="fullName" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="other-fields">Phone Number</label>
+                            <input id="other-fields" v-model="employee.numeroTelephone" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Status</label>
+                            <multiselect style="width: 80%"
+                                v-model="value"
+                                :options="options"
+                                :multiple="false"
+                                :close-on-select="false"
+                                :show-labels="false"
+                                placeholder="Pick a status"
+                                label="name"
+                                track-by="name"
+                                :searchable="false"
+                                selectLabel="Change status"
+                                selectedLabel="Current status"
+                                deselectLabel="Can't remove status"
+                                         :allow-empty="false"
+
+                            >
+
+                            </multiselect>
+<!--                            <input id="role" type="text" v-model="employee.utilisateur.etat" required>-->
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button type="button" class="cancel-button" @click="cancelFunction()">Cancel</button>
+                        <button type="submit" class="save-button" @click="saveEmployee">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 </template>
 <script>
+import Multiselect from "vue-multiselect";
+
 export default {
+    components: {Multiselect},
     props: {
         employee: Object,
         isShown: Boolean,
     },
     methods:{
         cancelFunction() {
-            this.$emit("cancelFunction", false);
+            this.$emit("cancelFunction", true);
         },
         saveEmployee() {
             this.$emit("saveEmployee", this.employee);
         },
+        saveCallLine() {
+            this.$emit("saveCallLine", this.employee);
+        },
+    },
+    computed: {
+        fullName: {
+            get() {
+                return `${this.employee.utilisateur.nom} ${this.employee.utilisateur.prenom}`;
+            },
+        },
+    },
+    data() {
+        return {
+            options: [{ name: 'Actif'}, { name: 'unactif'}],
+
+            value: this.employee.utilisateur?.etat,
+        };
     },
 
 }

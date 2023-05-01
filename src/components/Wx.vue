@@ -4,11 +4,14 @@
             <font-awesome-icon icon="fas fa-bars" class="actions-square-icon"/>
         </div>
         <div class="actions-square" @click="toggleMenu" v-show="isMenuOpen">
-            <font-awesome-icon icon="fas fa-pencil" class="actions-square-icon"/>
+            <font-awesome-icon icon="fas fa-pencil" class="actions-square-icon" @click="editEmployeeInfo(employee)"/>
             <font-awesome-icon icon="fas fa-trash-can" class="actions-square-icon"/>
             <font-awesome-icon icon="fas fa-circle-info" class="actions-square-icon" @click="showEmployeeInfo(employee)" />
         </div>
-        <Popup :ref="popupRef" :employee="selectedEmployee" v-if="selectedEmployee !== null"  @cancelFunction="()=>{isShown = !isShown;}"  :isShown="isShown" /> <!-- add the Popup component -->
+        <EditEmployeePopup  :employee="selectedEmployee" v-if="selectedEmployee !== null" @cancelFunction="()=>{editEmployeePopupisShown = !editEmployeePopupisShown;}" :isShown="editEmployeePopupisShown" />
+        <Popup  :employee="selectedEmployee" v-if="selectedEmployee !== null"  @cancelFunction="()=>{isShown = !isShown;}"  :isShown="isShown" />
+
+
 
     </div>
 </template>
@@ -27,7 +30,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { ref, watchEffect } from "vue";
 import carsData from "../data.json";
-import Popup from "./Popup.vue"; // import the Popup component
+import Popup from "./Popup.vue";
+import EditEmployeePopup from "@/components/EditEmployeePopup.vue"; // import the Popup component
 library.add(faChevronDown, faMagnifyingGlass, faPlus, faPencil, faTrashCan, faCircleInfo, faBars);
 const props = defineProps({
     employee: {
@@ -35,9 +39,11 @@ const props = defineProps({
         required: true
     }
 })
+
 const employee = ref(props.employee);
 let isMenuOpen = ref(false);
 let isShown = ref(false);
+let editEmployeePopupisShown = ref(false);
 let selectedEmployee = ref(null); // add a new reactive variable
 function handleClickOutside(event) {
     if (!event.target.closest(".sala")) {
@@ -50,7 +56,14 @@ function toggleMenu() {
 
 function showEmployeeInfo(employee) {
     selectedEmployee.value = employee;
+    editEmployeePopupisShown.value = true;
     isShown.value = false;
+}
+
+function editEmployeeInfo(employee) {
+    selectedEmployee.value = employee;
+    isShown.value = true;
+    editEmployeePopupisShown.value = false;
 }
 
 watchEffect(() => {
@@ -61,9 +74,10 @@ watchEffect(() => {
     }
 });
 const popupRef = ref()
-useDetectOutsideClick(popupRef, () => {
-    isShown.value = false;
-})
+const EditEmployeepopupRef = ref()
+// useDetectOutsideClick(popupRef, () => {
+//     isShown.value = false;
+// })
 </script>
 
 

@@ -1,5 +1,5 @@
 @import"../../node_modules/vue-multiselect/dist/vue3-multiselect.css";
-
+@import "../../node_modules/swiper/swiper-bundle.css";
 * {
     font-family: Inter, sans-serif;
     margin: 0;

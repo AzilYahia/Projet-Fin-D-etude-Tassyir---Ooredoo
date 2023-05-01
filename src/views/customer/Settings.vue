@@ -1,12 +1,12 @@
 <template>
     <div class="whole">
-        <div class="control-board">
-            <div class="search">
-                <font-awesome-icon icon="fas fa-magnifying-glass" class="chevron-down"/>
-                <input type="text" placeholder="Search settings" CLASS="search-field">
-            </div>
-        </div>
-        <div class="setting-filler">
+<!--        <div class="control-board">-->
+<!--            <div class="search">-->
+<!--                <font-awesome-icon icon="fas fa-magnifying-glass" class="chevron-down"/>-->
+<!--                <input type="text" placeholder="Search settings" CLASS="search-field">-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="setting-filler" style="margin-top: 50px">
       <div class="settings">
           <div class="settings-row">
               <div class="setting-name">
@@ -20,7 +20,7 @@
           <div class="settings-row">
               <div class="setting-name">
                   <font-awesome-icon icon="fas fa-bars" class="chevron-down"/>
-                  Option:
+                  Logs:
               </div>
               <div class="setting-description">
                   <div class="setting-description-filler">

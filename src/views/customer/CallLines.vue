@@ -3,10 +3,10 @@
         <div class="control-board">
             <div class="search">
                 <font-awesome-icon icon="fas fa-magnifying-glass" class="chevron-down"/>
-                <input type="text" placeholder="Search Lines" CLASS="search-field">
+                <input type="text" placeholder="Search Lines" class="search-field" v-model="search">
             </div>
 
-            <button class="add">
+            <button class="add" @click="assignEmployee">
                 <font-awesome-icon icon="fas fa-plus" />
             </button>
         </div>
@@ -40,17 +40,19 @@
                 <th >Actions</th>
             </tr>
             </thead>
-            <tbody v-for="oneInstance in instance" :key="oneInstance.id_line_client">
+            <tbody v-for="(oneInstance, index) in filteredInstance" :key="oneInstance.id_line_client">
             <tr>
                 <td>
                     <span class="name">{{oneInstance.numeroTelephone}}</span>
                 </td>
-                <td>{{oneInstance.etatLigne}}</td>
-                <td>{{oneInstance.numeroTelephone}}</td>
+<!--                <td>{{oneInstance.etatLigne}}</td>-->
+                <td>{{ clientConsumption[index].credit}} Min</td>
+<!--                <td>{{ consumptionData[oneInstance.id] }}</td>-->
+                <td>{{clientConsumption[index].internet}} GB</td>
                 <td class="aso">{{oneInstance.utilisateur.nom}} {{oneInstance.utilisateur.prenom}}</td>
                 <td>
-                    <div class="image-name">
-                        <div v-if="oneInstance.utilisateur.etat === 'Actif' " class="dot" :style="{'background-color': 'green' }"></div>
+                    <div class="image-name" >
+                        <div  v-if="oneInstance.utilisateur.etat === 'Actif' " class="dot" :style="{'background-color': 'green' }"></div>
                         <div v-else-if="oneInstance.utilisateur.etat === 'unactif' " class="dot" :style="{'background-color': 'blue'}"></div>
                         <div v-else class="dot" :style="{'background-color': 'red'}"></div>
                         {{oneInstance.utilisateur.etat}}
@@ -72,32 +74,102 @@
 
         </table>
     </div>
+    <AssignPhoneLinePopup :isAssignEmployeePopupShown="!isAssignEmployeePopupShown"  @cancelFunction="()=>{isAssignEmployeePopupShown = !isAssignEmployeePopupShown}" />
 </template>
 <script setup>
 import Wx from "@/components/Wx.vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faBars, faChevronDown, faCircleInfo, faMagnifyingGlass, faPencil, faPlus, faTrashCan,} from '@fortawesome/free-solid-svg-icons'
-import {ref, onMounted } from "vue";
+import {ref, onMounted, computed, reactive} from "vue";
 import axios from 'axios';
+import AssignPhoneLinePopup from "@/components/assignPhoneLinePopup.vue";
 library.add(faChevronDown, faMagnifyingGlass, faPlus,faPencil, faTrashCan, faCircleInfo, faBars )
 const instance = ref([]);
 const userData = ref([]);
+const clientConsumption = ref([]);
 const loading = ref(true); // add a loading state
+let consumptionData = reactive({});
 onMounted(async () => {
     try {
         const response = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/company/client/lines/3');
         instance.value = response.data.data;
-        const usersResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/users');
+        const usersResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/users/3');
         userData.value = usersResponse.data.data;
+         for (let i = 0; i < instance.value.length; i++) {
+            const clientConsumptionResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/client/user/consumption/'+
+            instance.value[i].utilisateur.id_client_user
+                +'?begin=2021-01-01');
+             clientConsumption.value.push(clientConsumptionResponse.data.data);
+             // clientConsumption.value = clientConsumptionResponse.data.data;
+        }
+
+        // console.log('apres boucle')
+        // console.log(clientConsumption.value[0])
+
+
         loading.value = false; // set loading to false when data is fetched
+        consumptionData = await fetchConsumptionData.value;
     } catch (error) {
         console.log(error);
         loading.value = false; // set loading to false in case of error
 
     }
 });
+const search = ref('');
 
+const filteredInstance = computed(() => {
+    return instance.value.filter(item => {
+        return item.numeroTelephone.includes(search.value)
+    })
+})
+
+const fetchConsumptionData = computed(async () => {
+    const result = {};
+    for (const oneInstance of filteredInstance.value) {
+        const response = await axios.get(`https://pfe.ramzi-issiakhem.com/api/v1/client/user/consumption/${oneInstance.utilisateur.id_client_user}?begin=2021-01-01`);
+        result[oneInstance.id] = response.data.data.credit;
+    }
+    return result;
+});
+
+
+// setTimeout(() => {
+//     console.log(filteredInstance.value[0].utilisateur.id_client_user)
+// }, 5000)
+const isAssignEmployeePopupShown = ref(false);
+function assignEmployee() {
+    isAssignEmployeePopupShown.value = true;
+}
+
+async function consumptionconnexions ()   {
+    const clientconsumption = ref([]);
+    for ( const i of filteredInstance.value) {
+       // wx = await filteredInstance.value[1];
+       //  console.log(wx)
+        // console.log(i)
+        const clientConsumptionResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/client/user/consumption/'+ i.utilisateur.id_client_user +'?begin=2021-01-01');
+        clientconsumption.value.push(clientConsumptionResponse.data.data);
+        // console.log(clientconsumption.value)
+    //     console.log(clientConsumptionResponse.data.data.credit)
+
+    //     clientConsumption.value.push(clientConsumptionResponse.data.data);
+    }
+//     const clientConsumptionResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/client/user/consumption/'+ wx.utilisateur.id_client_user +'?begin=2021-01-01');
+//     clientconsumption.value = clientConsumptionResponse.data.data;
+    return  clientconsumption.value;
+//     console.log(clientConsumptionResponse.data.data.credit)
+//     return clientConsumptionResponse.data.data.credit
+}
+
+
+async function consumptionconnexion (wx)   {
+    const clientConsumptionResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/client/user/consumption/'+ wx.utilisateur.id_client_user +'?begin=2021-01-01');
+    // console.log(h.utilisateur.id_client_user)
+    // console.log(clientConsumptionResponse.data.data.credit)
+
+    return  clientConsumptionResponse.data.data.credit
+}
 
 </script>
 

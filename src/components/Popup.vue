@@ -1,20 +1,41 @@
 <template>
    <div class="popup" v-show="!isShown">
-       <div class="user-infos">
-       <img decoding="async" src="../assets/picture.jpg" alt="" class="user-image">
-       <div class="name-and-infos">
-           <h3>{{ employee.nom}} {{employee.prenom}}</h3>
+       <div class="user-infos" >
+<!--       <img decoding="async" src="../assets/picture.jpg" alt="" class="user-image">-->
+           <v-avatar color="#df0327" size="100" v-if="employee.nom != null" class="user-image">
+                    <span class="text-h3" style="color: white">
+                        {{employee.nom?.charAt(0).toUpperCase()}}{{employee.prenom?.charAt(0).toUpperCase()}}
+                    </span>
+               <!--                    dakhl span n7ot hdik first letter of each name-->
+           </v-avatar>
+           <v-avatar color="#df0327" size="100" v-else-if="employee.utilisateur.nom != null" class="user-image">
+                    <span class="text-h3" style="color: white">
+                        {{employee.utilisateur.nom?.charAt(0).toUpperCase()}}{{employee.utilisateur.prenom?.charAt(0).toUpperCase()}}
+                    </span>
+               <!--                    dakhl span n7ot hdik first letter of each name-->
+           </v-avatar>
+
+       <div class="name-and-infos" v-if="employee.nom != null">
+           <h3 >{{ employee.nom}} {{employee.prenom}}</h3>
            <div class="infos">
            <p><strong>Position:</strong> {{ employee.role.nom }}</p>
            <p><strong>Email:</strong> {{employee.email}}</p>
            <p><strong>Phone:</strong> {{employee.nationalite}}</p>
        </div>
        </div>
+           <div class="name-and-infos" v-else-if="employee.utilisateur.nom != null">
+               <h3 >{{ employee.utilisateur.nom}} {{employee.utilisateur.prenom}}</h3>
+               <div class="infos">
+                   <p><strong>Position:</strong> {{ employee.utilisateur.role.nom }}</p>
+                   <p><strong>Email:</strong> {{employee.utilisateur.email}}</p>
+                   <p><strong>Phone:</strong> {{employee.numeroTelephone }}</p>
+               </div>
+           </div>
+
        </div>
        <div class="buttons">
            <button class="cancel-button" @click="cancelFunction()">Cancel</button>
-           <button class="logout-button">Edit</button>
-           <button class="logout-button">Remove</button>
+
        </div>
    </div>
 </template>
@@ -78,10 +99,11 @@ justify-content: space-evenly;
     height: 100px;
     border-radius: 50%;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 .buttons{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: clamp(100px, 80%, 600px);
     height: clamp(40px, 20%, 200px);

@@ -12,6 +12,7 @@ import NotFoundView from "@/views/general/NotFoundView.vue"
 import HomeView from "@/views/general/HomeView.vue";
 import Role from "@/components/Role.vue";
 import myProfile from "@/views/customer/myProfile.vue";
+import Login from "@/views/auth/Login.vue";
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -67,10 +68,16 @@ const router = createRouter({
             path: "/logout",
             name: "Log out",
             component: LogOut
-        },{
+        },
+        {
             path: "/myProfile",
             name: "My Profile",
             component: myProfile
+        },
+        {
+            path: "/login",
+            name: "Login",
+            component: Login
         },
 
         // ,

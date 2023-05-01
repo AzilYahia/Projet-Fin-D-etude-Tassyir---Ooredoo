@@ -5,7 +5,7 @@
           <div class="buttons">
             <button class="cancel-button" @click="cancelFunction()" >
                 Cancel</button>
-            <button class="logout-button">Log Out</button>
+            <button class="logout-button" @click="logOutFunction()">Log Out</button>
         </div>
         </div>
     </div>
@@ -24,6 +24,12 @@ let isHidden = ref(true);
     isHidden = !isHidden;
      router.push({ path: 'Dashboard' })
 }
+let logOutFunction = () => {
+    isHidden = !isHidden;
+    router.push({ path: 'login' })
+}
+
+
 </script>
 
 <style scoped>

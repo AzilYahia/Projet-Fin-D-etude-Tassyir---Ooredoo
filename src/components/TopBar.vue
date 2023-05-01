@@ -32,7 +32,7 @@
 
                         <font-awesome-icon icon="fas-regular fa-chevron-right" class="drop-down-icons"/>
                </div>
-                <div class="row-menu" @click="logOut()">
+                <div class="row-menu" @click="logOut">
                     <div class="drop-down-icon">
                         <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="drop-down-icons"/>
                     </div>                                       Log out
@@ -47,6 +47,17 @@
 
     </div>
 </div>
+
+    <div class="overlay" v-show="logOutIsHidden" >
+        <div class="popup-container">
+            <span class="content">Are you sure to log out?</span>
+            <div class="buttons">
+                <button class="cancel-button" @click="cancelFunction()" >
+                    Cancel</button>
+                <button class="logout-button" @click="logOutFunction()">Log Out</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -63,7 +74,17 @@ const props = defineProps({
         required: true
     }
 })
+
 let isMenuOpen = ref(false);
+let logOutIsHidden = ref(false);
+let cancelFunction = () => {
+    logOutIsHidden.value = false;
+}
+let logOutFunction = () => {
+    logOutIsHidden.value = !logOutIsHidden;
+    router.push({ path: 'login' })
+}
+
 function handleClickOutside(event) {
     if (
         isMenuOpen.value &&
@@ -90,7 +111,7 @@ function goToSettings(){
     routerr.push('/settings')
 }
 function logOut(){
-    routerr.push('/logout')
+    logOutIsHidden.value = !logOutIsHidden.value
 }
 function goToProfile(){
     routerr.push('/myProfile')
@@ -99,6 +120,82 @@ function goToProfile(){
 </script>
 
 <style scoped>
+.content{
+    font-size: 25px;
+    margin-bottom: 20px;
+
+}
+.buttons{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 340px;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-container {
+    background-color: white;
+    width: 450px;
+    height: 230px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.cancel-button{
+    border: 1px solid #DF0327 ;
+    background-color: #DF0327;
+    height: 50px;
+    width: 140px;
+    cursor: pointer;
+    color: white;
+    border-radius:14px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+}
+.cancel-button:hover{
+    background-color: #6B7280;
+    border: 1px solid #6B7280 ;
+
+    transition-duration: 0.3s;
+}
+
+.logout-button{
+    border: 2px solid #DF0327 ;
+    background-color: white;
+    height: 50px;
+    width: 140px;
+    cursor: pointer;
+    color: #DF0327;
+    border-radius:14px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+
+}
+.logout-button:hover{
+    background-color: #6B7280;
+    border: 1px solid #6B7280 ;
+    color: white;
+    transition-duration: 0.3s;
+}
+
 .page-name{
     width: 75%;
 

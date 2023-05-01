@@ -7,8 +7,9 @@
             </div>
             <DropDownMenu :instance="instance" @selectedRole="role => selectedRole = role" />
 
-            <button class="add">
+            <button class="add" @click="createEmployee">
                 <font-awesome-icon icon="fas fa-plus" />
+
             </button>
         </div>
         <table v-if="loading"  cellspacing="0" >
@@ -56,6 +57,8 @@
             </tbody>
         </table>
     </div>
+    <CreateEmployeePopup :isCreateEmployeePopupShown="!isCreateEmployeePopupShown"  @cancelFunction="()=>{isCreateEmployeePopupShown = !isCreateEmployeePopupShown}" />
+
 </template>
 <script setup>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
@@ -66,6 +69,8 @@ import Wx from "@/components/Wx.vue";
 import DropDownMenu from "@/components/DropDownMenu.vue";
 import axios from 'axios';
 import {onMounted} from "vue";
+import EditEmployeePopup from "@/components/EditEmployeePopup.vue";
+import CreateEmployeePopup from "@/components/createEmployeePopup.vue";
 library.add(faChevronDown, faMagnifyingGlass, faPlus,faPencil, faTrashCan, faCircleInfo, faBars, )
 const instance = ref([]);
 const loading = ref(true);
@@ -82,24 +87,24 @@ onMounted(async () => {
         const usersResponse = await axios.get('https://pfe.ramzi-issiakhem.com/api/v1/company/client/lines/3');
         userData.value = usersResponse.data.data;
         loading.value = false;
-        for (let i = 0; i < response.data.data.length; i++) {
-            user[i] = {
-                nom: instance.value[i].nom,
-                prenom: instance.value[i].prenom,
-                position: instance.value[i].position,
-                email: instance.value[i].email,
-                phone: userData.value[i].numeroTelephone,
-            };
-        }
+        // for (let i = 0; i < response.data.data.length; i++) {
+        //     user[i] = {
+        //         nom: instance.value[i].nom,
+        //         prenom: instance.value[i].prenom,
+        //         position: instance.value[i].position,
+        //         email: instance.value[i].email,
+        //         phone: userData.value[i].numeroTelephone,
+        //     };
+        // }
         const rolesSet = new Set();
-        for (let i = 0; i < user.length; i++) {
-            rolesSet.add(user[i].position);
-        }
+        // for (let i = 0; i < user.length; i++) {
+        //     rolesSet.add(user[i].position);
+        // }
 
         // user.forEach((item) => {
         //     rolesSet.add(item.position);
         // });
-        // Assign the list of roles to the roles array
+        // // Assign the list of roles to the roles array
         roles.value = Array.from(rolesSet);
 
 
@@ -134,7 +139,10 @@ const filteredInstance = computed(() => {
     })
 })
 // setTimeout(() => {console.log(user);}, 9000)
-
+const isCreateEmployeePopupShown = ref(false);
+function createEmployee() {
+    isCreateEmployeePopupShown.value = true;
+}
 
 
 
