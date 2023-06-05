@@ -47,55 +47,21 @@
                     <div class="role">
                         <div class="role-header">
                             <div class="hea">
-<!--                                <span id="edit">Edit</span>-->
                                 <span class="role-name">Invoice details </span>
                             </div>
-<!--                            <select class="actions-content-active">-->
-<!--                                <option disabled hidden selected value=""> Actions</option>-->
-<!--                                <option v-for="opt in cars" disabled>{{ opt.make }}</option>-->
-
-<!--                            </select>-->
                         </div>
-
-
                         <div class="emplo">
                             <div class="whole">
-                              <div class="header"><h3>Numero Contrat :</h3> <pre> {{ slide?.numero_contrat }} </pre> </div>
-                              <div class="header"><h3>Date Signature :</h3> <pre> {{ slide?.date_signature }} </pre> </div>
-                              <div class="header"><h3>Nom Signataires :</h3> <pre> {{ slide?.nom_signataires }} </pre> </div>
-                              <div class="header"><h3>Created At :</h3> <pre> {{ slide?.created_at.slice(0, 4) }} - {{slide?.created_at.slice(5, 7)}} - {{slide?.created_at.slice(8, 10)}} </pre> </div>
-                              <div class="header"><h3>Updated At :</h3> <pre> {{slide?.updated_at.slice(0, 4)}} - {{slide?.updated_at.slice(5, 7)}} - {{slide?.updated_at.slice(8, 10)}} </pre> </div>
+                              <div class="header"><h3>Prix Forfait :</h3> <pre> {{ slide?.prix_forfait }} </pre> </div>
+                              <div class="header"><h3>Prix Penalite :</h3> <pre> {{ slide?.prix_penalite }} </pre> </div>
+                              <div class="header"><h3>Prix Totale :</h3> <pre> {{ slide?.prix_total }} </pre> </div>
+                              <div class="header"><h3>Credit Penalite :</h3> <pre> {{ slide?.credit_penalite }}</pre> </div>
+                              <div class="header"><h3>Internet Penalite :</h3> <pre> {{slide?.internet_penalite}} </pre> </div>
+                              <div class="header"><h3>Date Debut :</h3> <pre> {{ slide?.date_debut.slice(0, 4) }} - {{slide?.date_debut.slice(5, 7)}} - {{slide?.date_debut.slice(8, 10)}} </pre> </div>
+                              <div class="header"><h3>Date Fin :</h3> <pre> {{slide?.date_fin.slice(0, 4)}} - {{slide?.date_fin.slice(5, 7)}} - {{slide?.date_fin.slice(8, 10)}} </pre> </div>
 
                               </div>
                               </div>
-<!--                                <div class="header">-->
-<!--                                    <div class="title">Employees</div>-->
-<!--                                    <div class="option">View All</div>-->
-<!--                                </div>-->
-<!--                                <div class="list">-->
-<!--                                    <div v-for="car in cars" class="rectangle">-->
-<!--                                        &lt;!&ndash;                                        <div class="image"&ndash;&gt;-->
-
-<!--                                        &lt;!&ndash;                                        ></div>&ndash;&gt;-->
-<!--                                        <v-avatar color="#df0327" size="45">-->
-<!--                    <span class="text-h3" style="color: white">-->
-<!--&lt;!&ndash;                        {{instance.nom?.charAt(0).toUpperCase()}}{{instance.prenom?.charAt(0).toUpperCase()}}&ndash;&gt;-->
-<!--                    </span>-->
-<!--                                            &lt;!&ndash;                    dakhl span n7ot hdik first letter of each name&ndash;&gt;-->
-<!--                                        </v-avatar>-->
-<!--                                        <div class="rectangle-info"> &lt;!&ndash; column &ndash;&gt;-->
-<!--                                            <div class="name">-->
-<!--                                                Name-->
-<!--                                            </div>-->
-<!--                                            <div class="info">-->
-<!--                                                Role-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="edit">Edit</div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
 
 
@@ -156,8 +122,9 @@ const updatedAt = ref(null);
 
 onMounted(async () => {
   try {
-    const listClientContracts = await axios.get(`https://pfe.ramzi-issiakhem.com/api/v1/client/contracts/${clientCompanyId}?begin=2022-01-01&end=`);
+    const listClientContracts = await axios.get(`https://pfe.ramzi-issiakhem.com/api/v1/company/invoices/${clientCompanyId}`);
     instance.value = listClientContracts.data.data;
+    console.log(instance.value)
     // ^ {"data": [
     //   {
     //     "id": 7,
