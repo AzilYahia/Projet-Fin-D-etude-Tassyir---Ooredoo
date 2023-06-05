@@ -5,39 +5,42 @@
     </select>
 </template>
 
-<script>
-import { ref, computed } from 'vue'
-
+<script >
+import {ref, computed, onMounted} from 'vue'
 export default {
-    props: {
-        instance: {
-            type: Array,
-            required: true
-        }
+  props: {
+    instance: {
+      type: Array,
+      required: true,
     },
-    setup(props) {
-        const selectedRole = ref('')
-        const availableRoles = computed(() => {
-            const roles = new Set()
-            props.instance.forEach(item => roles.add(item.role.nom))
-            return Array.from(roles)
-        })
+  },
+  setup(props, { emit }) {
+    const selectedRole = ref("");
+    const availableRoles = computed(() => {
+      const roles = new Set();
+      props.instance.forEach((item) => roles.add(item.role.nom));
+      return Array.from(roles);
+    });
 
-        function handleChange() {
-            // emit the selected role to the parent component
-            // using the `selectedRole` event
-            if (selectedRole.value !== '') {
-                this.$emit('selectedRole', selectedRole.value)
-            }
-        }
-
-        return {
-            selectedRole,
-            availableRoles,
-            handleChange
-        }
+    function handleChange() {
+      // Emit the selected role to the parent component
+      // using the 'selectedRole' event
+      if (selectedRole.value !== "") {
+        emit("selectedRole", selectedRole.value);
+      }
     }
-}
+
+    onMounted(() => {
+      // You can perform any necessary initialization logic here
+    });
+
+    return {
+      selectedRole,
+      availableRoles,
+      handleChange,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -88,7 +91,7 @@ select.round {
     top: 25%;
     width: clamp(10px, 9.5%, 150px);
     border-radius: 10px;
-    z-index: 100;
+    z-index: 10000;
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 5px;

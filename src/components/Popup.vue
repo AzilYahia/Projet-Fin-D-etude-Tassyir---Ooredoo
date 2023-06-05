@@ -8,8 +8,11 @@
                     </span>
                <!--                    dakhl span n7ot hdik first letter of each name-->
            </v-avatar>
-           <v-avatar color="#df0327" size="100" v-else-if="employee.utilisateur.nom != null" class="user-image">
-                    <span class="text-h3" style="color: white">
+           <v-avatar color="#df0327" size="100" v-else-if="employee.id_line_client != null" class="user-image">
+                    <span class="text-h3" style="color: white" v-if="employee.utilisateur == null"> ?
+<!--                        {{employee.utilisateur.nom?.charAt(0).toUpperCase()}}{{employee.utilisateur.prenom?.charAt(0).toUpperCase()}}-->
+                    </span>
+             <span class="text-h3" style="color: white" v-else>
                         {{employee.utilisateur.nom?.charAt(0).toUpperCase()}}{{employee.utilisateur.prenom?.charAt(0).toUpperCase()}}
                     </span>
                <!--                    dakhl span n7ot hdik first letter of each name-->
@@ -18,17 +21,19 @@
        <div class="name-and-infos" v-if="employee.nom != null">
            <h3 >{{ employee.nom}} {{employee.prenom}}</h3>
            <div class="infos">
-           <p><strong>Position:</strong> {{ employee.role.nom }}</p>
+           <p><strong>Role:</strong> {{ employee.role.nom }}</p>
            <p><strong>Email:</strong> {{employee.email}}</p>
-           <p><strong>Phone:</strong> {{employee.nationalite}}</p>
+           <p><strong>User Type:</strong> {{employee.typeUtilisateur}}</p>
        </div>
        </div>
-           <div class="name-and-infos" v-else-if="employee.utilisateur.nom != null">
-               <h3 >{{ employee.utilisateur.nom}} {{employee.utilisateur.prenom}}</h3>
+           <div class="name-and-infos" v-else-if="employee.id_line != null">
+<!--               <h3 >{{ employee.utilisateur.nom}} {{employee.utilisateur.prenom}}</h3>-->
+               <h3 v-if="employee.utilisateur == null">Not Assigned </h3>
+               <h3 v-else>{{ employee.utilisateur.nom}} {{employee.utilisateur.prenom}} </h3>
                <div class="infos">
-                   <p><strong>Position:</strong> {{ employee.utilisateur.role.nom }}</p>
-                   <p><strong>Email:</strong> {{employee.utilisateur.email}}</p>
-                   <p><strong>Phone:</strong> {{employee.numeroTelephone }}</p>
+                   <p><strong>Client Line ID:</strong> {{ employee.id_line_client }}</p>
+                   <p><strong>Line Status:</strong> {{employee.etatLigne}}</p>
+                   <p><strong>Phone Line:</strong> {{employee.numeroTelephone }}</p>
                </div>
            </div>
 
